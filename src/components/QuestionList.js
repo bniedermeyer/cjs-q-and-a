@@ -4,8 +4,6 @@ import styled from "styled-components";
 
 const ListContainer = styled.ul`
   list-style: none;
-  overflow: scroll;
-  max-height: 15vh;
   padding-left: 0;
   padding: 3px;
 `;
