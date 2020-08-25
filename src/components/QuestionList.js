@@ -1,5 +1,5 @@
 /* global fetch */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 const ListContainer = styled.ul`
@@ -42,12 +42,20 @@ const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const [err, setErr] = useState(null);
 
+  const pollForQuestions = useCallback(async () => {
+    const interval = 10000;
+    while (allowPolling) {
+      await new Promise((res) => setTimeout(res, interval));
+      await fetchQuestions();
+    }
+  }, [allowPolling]);
+
   useEffect(() => {
     fetchQuestions();
     pollForQuestions();
 
     return () => setAllowPolling(false);
-  }, []);
+  }, [pollForQuestions]);
 
   async function fetchQuestions() {
     try {
@@ -68,18 +76,6 @@ const QuestionList = () => {
     };
     await fetch("/ask", settings);
     await fetchQuestions();
-  }
-
-  /**
-   * Setups up continuous polling to check for updates the questions
-   * Only needs to be called once
-   */
-  async function pollForQuestions() {
-    const interval = 10000;
-    while (allowPolling) {
-      await new Promise((res) => setTimeout(res, interval));
-      await fetchQuestions();
-    }
   }
 
   if (err) {
