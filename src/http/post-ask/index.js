@@ -11,8 +11,10 @@ async function ask(req) {
   const { question, key } = req.body;
   try {
     if (question) {
+      console.info("adding question", question);
       //only keep each question for 30 minutes. This will help prevent having to clear questions
-      const ttl = Date.now() / 1000 + 1800;
+      // prettier-ignore
+      const ttl = (Date.now() / 1000) + (60*30);
 
       await data.set({
         table: "questions",
