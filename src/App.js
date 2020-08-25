@@ -1,43 +1,48 @@
-/* global fetch */
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import styled from "styled-components";
+
+import QuestionForm from "./components/QuestionForm";
+import QuestionList from "./components/QuestionList";
+
+const AppContainer = styled.div`
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 20vh;
+  width: 300px;
+`;
+
+const Header = styled.h2`
+  color: #112378;
+`;
+
+const QuestionButton = styled.button`
+  height: 30px;
+  border: 3px solid #10915b;
+  color: #10915b;
+  font-weight: bold;
+  background-color: transparent;
+`;
 
 const App = () => {
-  const [message, setMessage] = useState('...loading')
+  const [askingQuestion, setAskingQuestion] = useState(false);
 
-  useEffect(() => {
-    async function fetchData () {
-      try {
-        let data = await (await fetch('/api')).json()
-        setMessage(data.message)
-      } catch (err) {
-        setMessage(err.message)
-      }
-    }
-    fetchData()
-  })
-
+  const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{message}</p>
-        <p>Change me!</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      <Header>Q&A</Header>
+      {askingQuestion ? (
+        <QuestionForm />
+      ) : (
+        <QuestionButton onClick={() => toggleQuestionForm()}>
+          Ask a Question
+        </QuestionButton>
+      )}
+
+      <QuestionList />
+    </AppContainer>
   );
-}
+};
 
 export default App;

@@ -5,7 +5,9 @@ begin-app
 folder build
 
 @http
-get /api
+get /clear-questions
+get /questions
+post /ask
 
 @tables
 data
