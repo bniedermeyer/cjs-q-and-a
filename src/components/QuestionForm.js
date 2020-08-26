@@ -7,7 +7,7 @@ const SubmitButton = styled.button`
   border: 3px solid #10915b;
   color: #10915b;
   font-weight: bold;
-  background-color: transparent;
+  background-color: #fff;
 `;
 
 const QuestionForm = () => {
