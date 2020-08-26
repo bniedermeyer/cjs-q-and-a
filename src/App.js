@@ -9,12 +9,13 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-height: 20vh;
   width: 300px;
 `;
 
 const Header = styled.h2`
   color: #112378;
+  position: sticky;
+  top: 0;
 `;
 
 const QuestionButton = styled.button`
@@ -35,7 +36,10 @@ const App = () => {
       {askingQuestion ? (
         <QuestionForm />
       ) : (
-        <QuestionButton onClick={() => toggleQuestionForm()}>
+        <QuestionButton
+          onClick={() => toggleQuestionForm()}
+          aria-expanded={askingQuestion}
+        >
           Ask a Question
         </QuestionButton>
       )}

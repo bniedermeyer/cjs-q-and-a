@@ -33,6 +33,8 @@ const Question = styled.li`
 
 const Header = styled.h3`
   color: #112378;
+  position: sticky;
+  top: 0;
 `;
 
 const QuestionList = () => {
@@ -91,6 +93,7 @@ const QuestionList = () => {
           type="button"
           className="qa-inc-button"
           onClick={() => incrementQuestionCount(key)}
+          aria-label="Also ask this question"
         >
           +1
         </IncrementButton>
