@@ -14,8 +14,6 @@ const AppContainer = styled.div`
 
 const Header = styled.h2`
   color: #112378;
-  position: sticky;
-  top: 0;
 `;
 
 const QuestionButton = styled.button`
@@ -26,24 +24,32 @@ const QuestionButton = styled.button`
   background-color: transparent;
 `;
 
+const Sticky = styled.div`
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 100;
+`;
+
 const App = () => {
   const [askingQuestion, setAskingQuestion] = useState(false);
 
   const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
   return (
     <AppContainer>
-      <Header>Q&A</Header>
-      {askingQuestion ? (
-        <QuestionForm />
-      ) : (
-        <QuestionButton
-          onClick={() => toggleQuestionForm()}
-          aria-expanded={askingQuestion}
-        >
-          Ask a Question
-        </QuestionButton>
-      )}
-
+      <Sticky>
+        <Header>Q&A</Header>
+        {askingQuestion ? (
+          <QuestionForm />
+        ) : (
+          <QuestionButton
+            onClick={() => toggleQuestionForm()}
+            aria-expanded={askingQuestion}
+          >
+            Ask a Question
+          </QuestionButton>
+        )}
+      </Sticky>
       <QuestionList />
     </AppContainer>
   );
