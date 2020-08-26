@@ -16,11 +16,11 @@ async function questions() {
     // do not return expired questions
     .filter(({ key, question, expiresOn }) => {
       const expireTime = parseISO(expiresOn);
-      const notExpired = isAfter(expireTime, timeNow);
-      if (!notExpired) {
+      const expired = isAfter(timeNow, expireTime);
+      if (expired) {
         console.log(`Question ${key} is expired: ${question} - ${expiresOn}`);
       }
-      return notExpired;
+      return expired;
     })
     .sort((a, b) => b.timesAsked - a.timesAsked);
   return { body: JSON.stringify(sortedQuestions) };
