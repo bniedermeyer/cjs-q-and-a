@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import QuestionForm from "./components/QuestionForm";
 import QuestionList from "./components/QuestionList";
+import Sticky from "./components/Sticky";
 
 const AppContainer = styled.div`
   padding-left: 10px;
@@ -21,14 +22,7 @@ const QuestionButton = styled.button`
   border: 3px solid #10915b;
   color: #10915b;
   font-weight: bold;
-  background-color: transparent;
-`;
-
-const Sticky = styled.div`
-  position: sticky;
-  top: 0;
   background-color: inherit;
-  z-index: 100;
 `;
 
 const App = () => {
