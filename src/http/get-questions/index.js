@@ -1,7 +1,5 @@
 let arc = require("@architect/functions");
 let data = require("@begin/data");
-let isAfter = require("date-fns/isAfter");
-let parseISO = require("date-fns/parseISO");
 
 exports.handler = arc.http.async(questions);
 
@@ -20,17 +18,6 @@ async function questions() {
     questions = questions.concat(nextPage);
   }
   console.log("questions retrieved: ", questions);
-  const timeNow = new Date();
-  const sortedQuestions = questions
-    // do not return expired questions
-    .filter(({ key, question, expiresOn }) => {
-      const expireTime = parseISO(expiresOn);
-      const expired = isAfter(timeNow, expireTime);
-      if (expired) {
-        console.log(`Question ${key} is expired: ${question} - ${expiresOn}`);
-      }
-      return !expired;
-    })
-    .sort((a, b) => b.timesAsked - a.timesAsked);
+  const sortedQuestions = questions.sort((a, b) => b.timesAsked - a.timesAsked);
   return { body: JSON.stringify(sortedQuestions) };
 }
