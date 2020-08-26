@@ -13,8 +13,13 @@ const AppContainer = styled.div`
   width: 300px;
 `;
 
-const Header = styled.h2`
+const WidgetHeader = styled.h2`
   color: #112378;
+`;
+const QuestionsHeader = styled.h3`
+  color: #112378;
+  margin-bottom: 10px;
+  padding-bottom: 0;
 `;
 
 const QuestionButton = styled.button`
@@ -32,7 +37,7 @@ const App = () => {
   return (
     <AppContainer>
       <Sticky>
-        <Header>Q&A</Header>
+        <WidgetHeader>Q&A</WidgetHeader>
         {askingQuestion ? (
           <QuestionForm />
         ) : (
@@ -43,6 +48,7 @@ const App = () => {
             Ask a Question
           </QuestionButton>
         )}
+        <QuestionsHeader>Questions</QuestionsHeader>
       </Sticky>
       <QuestionList />
     </AppContainer>

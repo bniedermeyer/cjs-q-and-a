@@ -31,12 +31,6 @@ const Question = styled.li`
   margin: 5px;
 `;
 
-const Header = styled.h3`
-  color: #112378;
-  position: sticky;
-  top: 0;
-`;
-
 const QuestionList = () => {
   const [allowPolling, setAllowPolling] = useState(true);
   const [questions, setQuestions] = useState([]);
@@ -105,12 +99,7 @@ const QuestionList = () => {
     ));
   }
 
-  return (
-    <div>
-      <Header>Questions</Header>
-      <ListContainer id="qa-questions">{content}</ListContainer>
-    </div>
-  );
+  return <ListContainer id="qa-questions">{content}</ListContainer>;
 };
 
 export default QuestionList;
