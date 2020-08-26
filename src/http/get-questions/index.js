@@ -20,7 +20,7 @@ async function questions() {
       if (expired) {
         console.log(`Question ${key} is expired: ${question} - ${expiresOn}`);
       }
-      return expired;
+      return !expired;
     })
     .sort((a, b) => b.timesAsked - a.timesAsked);
   return { body: JSON.stringify(sortedQuestions) };
