@@ -1,6 +1,9 @@
 @app
 begin-app
 
+@aws
+region us-west-2
+
 @static
 folder build
 
