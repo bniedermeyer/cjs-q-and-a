@@ -1,5 +1,7 @@
 let arc = require("@architect/functions");
 let data = require("@begin/data");
+let addMinutes = require("date-fns/addMinutes");
+let getUnixTime = require("date-fns/getUnixTime");
 
 exports.handler = arc.http.async(ask);
 
@@ -13,14 +15,13 @@ async function ask(req) {
     if (question) {
       console.info("adding question", question);
       //only keep each question for 30 minutes. This will help prevent having to clear questions
-      // prettier-ignore
-      const ttl = (Date.now() / 1000) + (60*30);
+      const expiresOn = addMinutes(new Date(), 30);
 
       await data.set({
         table: "questions",
         timesAsked: 1,
         question,
-        ttl,
+        ttl: getUnixTime(expiresOn),
       });
       return { statusCode: 201 };
     }
