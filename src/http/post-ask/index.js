@@ -37,6 +37,7 @@ async function ask(req) {
       return { statusCode: 200 };
     }
   } catch (error) {
+    console.error(error.message);
     return { statusCode: 500, message: error.message };
   }
 
