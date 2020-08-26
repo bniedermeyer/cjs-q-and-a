@@ -1,7 +1,7 @@
 let arc = require("@architect/functions");
 let data = require("@begin/data");
-let fromUnixTime = require("date-fns/fromUnixTime");
 let isAfter = require("date-fns/isAfter");
+let parseISO = require("date-fns/parseISO");
 
 exports.handler = arc.http.async(questions);
 
@@ -13,10 +13,10 @@ async function questions() {
   const questions = await data.get({ table: "questions" });
   const timeNow = new Date();
   const sortedQuestions = questions
-    // do not return questions w/ an expired TTL
-    .filter(({ ttl }) => {
-      const expiresOn = fromUnixTime(ttl);
-      return isAfter(expiresOn, timeNow);
+    // do not return expired questions
+    .filter(({ expiresOn }) => {
+      const expireTime = parseISO(expiresOn);
+      return isAfter(expireTime, timeNow);
     })
     .sort((a, b) => b.timesAsked - a.timesAsked);
   return { body: JSON.stringify(sortedQuestions) };

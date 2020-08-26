@@ -2,6 +2,7 @@ let arc = require("@architect/functions");
 let data = require("@begin/data");
 let addMinutes = require("date-fns/addMinutes");
 let getUnixTime = require("date-fns/getUnixTime");
+let formatISO = require("date-fns/formatISO");
 
 exports.handler = arc.http.async(ask);
 
@@ -22,6 +23,7 @@ async function ask(req) {
         timesAsked: 1,
         question,
         ttl: getUnixTime(expiresOn),
+        expiresOn: formatISO(expiresOn),
       });
       return { statusCode: 201 };
     }
