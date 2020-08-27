@@ -1,5 +1,6 @@
 let arc = require("@architect/functions");
 let data = require("@begin/data");
+const { v4: uuidv4 } = require("uuid");
 
 exports.handler = arc.http.async(ask);
 
@@ -8,6 +9,7 @@ exports.handler = arc.http.async(ask);
  * the question has been asked.
  */
 async function ask(req) {
+  const session = req.session;
   const { question, key } = req.body;
   try {
     if (question) {
@@ -22,12 +24,20 @@ async function ask(req) {
     }
 
     if (key) {
+      if (session.upvotedQuestions && session.upvotedQuestions.includes(key)) {
+        // only allow users to +1 a question once
+        return { statusCode: 200, session };
+      }
+      const upvotedQuestions = session.upvotedQuestions
+        ? [...session.upvotedQuestions, key]
+        : [key];
+
       await data.incr({
         table: "questions",
         prop: "timesAsked",
         key,
       });
-      return { statusCode: 200 };
+      return { statusCode: 200, session: { upvotedQuestions } };
     }
   } catch (error) {
     console.error(error.message);
