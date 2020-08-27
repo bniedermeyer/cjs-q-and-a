@@ -6,9 +6,10 @@ const ListContainer = styled.ul`
   list-style: none;
   padding-left: 0;
   padding: 3px;
+  margin-top: 0;
 `;
-const QuestionText = styled.span`
-  color: #112378;
+
+const QuestionText = styled.p`
   font-weight: bold;
   word-wrap: break-word;
   margin: 3px;
@@ -26,9 +27,8 @@ const IncrementButton = styled.button`
 
 const Question = styled.li`
   font-size: 0.75rem;
-  display: flex;
-  align-items: center;
   margin: 5px;
+  color: #112378;
 `;
 
 const QuestionList = () => {
@@ -83,6 +83,8 @@ const QuestionList = () => {
   } else {
     content = questions.map(({ question, key, timesAsked }) => (
       <Question className="qa-question" key={key}>
+        <QuestionText>{question}</QuestionText>
+
         <IncrementButton
           type="button"
           className="qa-inc-button"
@@ -91,10 +93,7 @@ const QuestionList = () => {
         >
           +1
         </IncrementButton>
-        <span>
-          <QuestionText>{question}</QuestionText>
-          (Times asked: {timesAsked})
-        </span>
+        <span>{timesAsked}</span>
       </Question>
     ));
   }

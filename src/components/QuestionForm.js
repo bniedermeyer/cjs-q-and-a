@@ -10,8 +10,22 @@ const SubmitButton = styled.button`
   background-color: #fff;
 `;
 
+const SubmitConfirmation = styled.span`
+  font-size: 0.75rem;
+  padding: 10px;
+  color: #112378;
+`;
+
+const SubmitError = styled.span`
+  font-size: 0.75rem;
+  padding: 10px;
+  color: #red;
+`;
+
 const QuestionForm = () => {
   const [question, setQuestion] = useState("");
+  const [displayConfirmation, setDisplayConfirmation] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -22,12 +36,20 @@ const QuestionForm = () => {
       },
       body: JSON.stringify({ question }),
     };
-    await fetch("/ask", settings);
-    setQuestion("");
+    try {
+      await fetch("/ask", settings);
+      setQuestion("");
+      setDisplayConfirmation(true);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
   }
 
   function handleQuestionChange(event) {
     setQuestion(event.target.value);
+    setDisplayConfirmation(false);
+    setError("");
   }
 
   return (
@@ -46,6 +68,10 @@ const QuestionForm = () => {
       <SubmitButton type="submit" id="submit-question-btn">
         Ask Question
       </SubmitButton>
+      {displayConfirmation && (
+        <SubmitConfirmation>Question Asked!</SubmitConfirmation>
+      )}
+      {error && <SubmitError>{error}</SubmitError>}
     </form>
   );
 };
