@@ -11,6 +11,8 @@ folder build
 get /clear-questions
 get /questions
 post /ask
+post /clear-questions
+
 
 @tables
 data
