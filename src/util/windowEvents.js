@@ -1,4 +1,4 @@
-const listenForWindowEvents = () => {
+const  = () => {
   window.addEventListener("message", (event) => {
     const origin = event.origin || event.originalEvent.origin;
     console.log(origin);

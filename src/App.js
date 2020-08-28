@@ -4,6 +4,7 @@ import styled from "styled-components";
 import QuestionForm from "./components/QuestionForm";
 import QuestionList from "./components/QuestionList";
 import Sticky from "./components/Sticky";
+import windowEvents from "./util/windowEvents";
 
 const AppContainer = styled.div`
   padding-left: 10px;
@@ -33,6 +34,9 @@ const QuestionButton = styled.button`
 const App = () => {
   const [askingQuestion, setAskingQuestion] = useState(false);
   const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    windowEvents.listenForWindowEvents();
+  }, []);
 
   if (!userId) {
     // normally we don't want to interact with the global location
