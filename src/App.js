@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import QuestionForm from "./components/QuestionForm";
@@ -32,6 +32,15 @@ const QuestionButton = styled.button`
 
 const App = () => {
   const [askingQuestion, setAskingQuestion] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  if (!userId) {
+    // normally we don't want to interact with the global location
+    // but this allows us to grab the user id from the iframe
+    // eslint-disable-next-line no-restricted-globals
+    setUserId(location.hash);
+    console.log("user id set: ", userId);
+  }
 
   const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
   return (

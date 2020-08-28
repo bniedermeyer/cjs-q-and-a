@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@architect/functions": "^3.10.1",
+    "@begin/data": "^1.2.2",
+    "date-fns": "^2.15.0"
+  }
+}
