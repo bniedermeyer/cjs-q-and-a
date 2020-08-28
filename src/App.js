@@ -33,20 +33,11 @@ const App = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    // normally we don't want to interact with the global location
+    // but this allows us to grab the user id from the iframe
     setUserId(window.location.hash.replace(/#/, ""));
     listenForWindowEvents();
   }, []);
-
-  // if (!userId) {
-  //   // normally we don't want to interact with the global location
-  //   // but this allows us to grab the user id from the iframe
-  //   // eslint-disable-next-line no-restricted-globals
-  //   setUserId(location.hash);
-  //   console.log("user id set: ", userId);
-  // }
-  if (userId) {
-    console.log(userId);
-  }
 
   const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
   return (
