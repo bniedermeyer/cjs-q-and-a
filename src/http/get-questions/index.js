@@ -18,6 +18,11 @@ async function questions() {
     questions = questions.concat(nextPage);
   }
   console.log("questions retrieved: ", questions);
-  const sortedQuestions = questions.sort((a, b) => b.timesAsked - a.timesAsked);
+  const sortedQuestions = questions
+    .map((question) => ({
+      ...question,
+      timesAsked: question.upvotedBy.length,
+    }))
+    .sort((a, b) => b.timesAsked - a.timesAsked);
   return { body: JSON.stringify(sortedQuestions) };
 }

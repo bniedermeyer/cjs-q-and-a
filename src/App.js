@@ -4,7 +4,7 @@ import styled from "styled-components";
 import QuestionForm from "./components/QuestionForm";
 import QuestionList from "./components/QuestionList";
 import Sticky from "./components/Sticky";
-import windowEvents from "./util/windowEvents";
+import listenForWindowEvents from "./util/windowEvents";
 
 const AppContainer = styled.div`
   padding-left: 10px;
@@ -36,15 +36,19 @@ const App = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    windowEvents.listenForWindowEvents();
+    setUserId(window.location.hash.replace(/#/, ""));
+    listenForWindowEvents();
   }, []);
 
-  if (!userId) {
-    // normally we don't want to interact with the global location
-    // but this allows us to grab the user id from the iframe
-    // eslint-disable-next-line no-restricted-globals
-    setUserId(location.hash);
-    console.log("user id set: ", userId);
+  // if (!userId) {
+  //   // normally we don't want to interact with the global location
+  //   // but this allows us to grab the user id from the iframe
+  //   // eslint-disable-next-line no-restricted-globals
+  //   setUserId(location.hash);
+  //   console.log("user id set: ", userId);
+  // }
+  if (userId) {
+    console.log(userId);
   }
 
   const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
@@ -53,7 +57,7 @@ const App = () => {
       <Sticky>
         <WidgetHeader>Q&A</WidgetHeader>
         {askingQuestion ? (
-          <QuestionForm />
+          <QuestionForm user={userId} />
         ) : (
           <QuestionButton
             onClick={() => toggleQuestionForm()}
@@ -64,7 +68,7 @@ const App = () => {
         )}
         <QuestionsHeader>Questions</QuestionsHeader>
       </Sticky>
-      <QuestionList />
+      <QuestionList user={userId} />
     </AppContainer>
   );
 };

@@ -31,7 +31,7 @@ const Question = styled.li`
   color: #112378;
 `;
 
-const QuestionList = () => {
+const QuestionList = ({ user }) => {
   const [allowPolling, setAllowPolling] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [err, setErr] = useState(null);
@@ -66,7 +66,7 @@ const QuestionList = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ key }),
+      body: JSON.stringify({ key, user }),
     };
     await fetch("/ask", settings);
     await fetchQuestions();

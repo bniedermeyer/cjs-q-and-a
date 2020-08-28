@@ -1,6 +1,5 @@
 let arc = require("@architect/functions");
 let data = require("@begin/data");
-const { v4: uuidv4 } = require("uuid");
 
 exports.handler = arc.http.async(ask);
 
@@ -9,39 +8,38 @@ exports.handler = arc.http.async(ask);
  * the question has been asked.
  */
 async function ask(req) {
-  const session = req.session;
-  const { question, key } = req.body;
-  try {
-    if (question) {
-      console.info("adding question", question);
+  const { question, key, user } = req.body;
+  if (user && (question || key)) {
+    try {
+      if (question) {
+        console.info(`user ${user} asked question ${question}`);
 
-      await data.set({
-        table: "questions",
-        timesAsked: 1,
-        question,
-      });
-      return { statusCode: 201 };
-    }
-
-    if (key) {
-      if (session.upvotedQuestions && session.upvotedQuestions.includes(key)) {
-        // only allow users to +1 a question once
-        return { statusCode: 200, session };
+        await data.set({
+          table: "questions",
+          question,
+          askedBy: user,
+          upvotedBy: [user],
+        });
+        return { statusCode: 201 };
       }
-      const upvotedQuestions = session.upvotedQuestions
-        ? [...session.upvotedQuestions, key]
-        : [key];
 
-      await data.incr({
-        table: "questions",
-        prop: "timesAsked",
-        key,
-      });
-      return { statusCode: 200, session: { upvotedQuestions } };
+      if (key) {
+        const votedQuestion = await data.get({ table: "questions", key });
+        if (votedQuestion.upvotedBy.includes(user)) {
+          console.info(`user ${user} already voted for ${key}`);
+          return { statusCode: 200 };
+        }
+
+        await data.set({
+          ...votedQuestion,
+          upvotedBy: [...votedQuestion.upvotedBy, user],
+        });
+        return { statusCode: 200 };
+      }
+    } catch (error) {
+      console.error(error.message);
+      return { statusCode: 500, message: error.message };
     }
-  } catch (error) {
-    console.error(error.message);
-    return { statusCode: 500, message: error.message };
   }
 
   // either question or key are required
