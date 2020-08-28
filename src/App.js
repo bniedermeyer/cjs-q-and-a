@@ -55,7 +55,6 @@ const App = () => {
   return (
     <AppContainer>
       <Sticky>
-        <WidgetHeader>Q&A</WidgetHeader>
         {askingQuestion ? (
           <QuestionForm user={userId} />
         ) : (
