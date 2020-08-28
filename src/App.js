@@ -14,9 +14,6 @@ const AppContainer = styled.div`
   width: 300px;
 `;
 
-const WidgetHeader = styled.h2`
-  color: #112378;
-`;
 const QuestionsHeader = styled.h3`
   color: #112378;
   margin-bottom: 10px;
