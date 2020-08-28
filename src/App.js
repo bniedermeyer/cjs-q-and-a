@@ -14,22 +14,7 @@ const AppContainer = styled.div`
   width: 300px;
 `;
 
-const QuestionsHeader = styled.h3`
-  color: #112378;
-  margin-bottom: 10px;
-  padding-bottom: 0;
-`;
-
-const QuestionButton = styled.button`
-  height: 30px;
-  border: 3px solid #10915b;
-  color: #10915b;
-  font-weight: bold;
-  background-color: #fff;
-`;
-
 const App = () => {
-  const [askingQuestion, setAskingQuestion] = useState(false);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -39,21 +24,10 @@ const App = () => {
     listenForWindowEvents();
   }, []);
 
-  const toggleQuestionForm = () => setAskingQuestion(!askingQuestion);
   return (
     <AppContainer>
       <Sticky>
-        {askingQuestion ? (
-          <QuestionForm user={userId} />
-        ) : (
-          <QuestionButton
-            onClick={() => toggleQuestionForm()}
-            aria-expanded={askingQuestion}
-          >
-            Ask a Question
-          </QuestionButton>
-        )}
-        <QuestionsHeader>Questions</QuestionsHeader>
+        <QuestionForm user={userId} />
       </Sticky>
       <QuestionList user={userId} />
     </AppContainer>

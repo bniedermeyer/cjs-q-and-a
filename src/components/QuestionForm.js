@@ -54,7 +54,6 @@ const QuestionForm = ({ user }) => {
 
   return (
     <form id="question-form" onSubmit={handleSubmit}>
-      <label htmlFor="question">Ask Away!</label>
       <div>
         <textarea
           name="question"
@@ -63,6 +62,7 @@ const QuestionForm = ({ user }) => {
           rows="3"
           value={question}
           onChange={handleQuestionChange}
+          aria-label="Submit your question here"
         ></textarea>
       </div>
       <SubmitButton type="submit" id="submit-question-btn">
