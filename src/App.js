@@ -34,6 +34,7 @@ const QuestionButton = styled.button`
 const App = () => {
   const [askingQuestion, setAskingQuestion] = useState(false);
   const [userId, setUserId] = useState(null);
+
   useEffect(() => {
     windowEvents.listenForWindowEvents();
   }, []);
