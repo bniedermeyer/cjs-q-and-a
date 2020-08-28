@@ -4,7 +4,7 @@ import styled from "styled-components";
 import QuestionForm from "./components/QuestionForm";
 import QuestionList from "./components/QuestionList";
 import Sticky from "./components/Sticky";
-import listenForWindowEvents from "./util/windowEvents";
+// import listenForWindowEvents from "./util/windowEvents";
 
 const AppContainer = styled.div`
   padding-left: 10px;
@@ -21,7 +21,7 @@ const App = () => {
     // normally we don't want to interact with the global location
     // but this allows us to grab the user id from the iframe
     setUserId(window.location.hash.replace(/#/, ""));
-    listenForWindowEvents();
+    // listenForWindowEvents();
   }, []);
 
   return (
