@@ -4,14 +4,12 @@ let data = require("@begin/data");
 exports.handler = arc.http.async(clearQuestions);
 
 async function clearQuestions() {
-  const allowClearQuestions = process.env.QA_CLEAR_QUESTIONS || false;
-  if (allowClearQuestions) {
-    const table = "questions";
-    const formatForDelete = ({ key }) => ({
-      table,
-      key,
-    });
-
+  const table = "questions";
+  const formatForDelete = ({ key }) => ({
+    table,
+    key,
+  });
+  try {
     let response = await data.get({ table });
     let dataToRemove = response.map(formatForDelete);
 
@@ -24,7 +22,9 @@ async function clearQuestions() {
 
     console.info("Removing all questions", dataToRemove);
     await data.destroy(dataToRemove);
-  }
 
-  return { statusCode: 200 };
+    return { statusCode: 200 };
+  } catch (error) {
+    return { statusCode: 500 };
+  }
 }

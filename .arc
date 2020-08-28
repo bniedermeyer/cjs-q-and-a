@@ -9,6 +9,7 @@ folder build
 
 @http
 get /clear-questions
+get /delete
 get /questions
 post /ask
 post /clear-questions
@@ -19,3 +20,4 @@ data
   scopeID *String
   dataID **String
   ttl TTL
+ 

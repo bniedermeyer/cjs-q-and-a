@@ -1,6 +1,9 @@
 const listenForWindowEvents = () => {
   window.addEventListener("message", (event) => {
     const origin = event.origin || event.originalEvent.origin;
+    if (!origin.match(/(cascadiajs.com$|localhost:3333$)/gi)) {
+      return;
+    }
     console.log(origin);
     if (
       typeof event.data === "object" &&
