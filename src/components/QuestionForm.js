@@ -22,7 +22,7 @@ const SubmitError = styled.span`
   color: #red;
 `;
 
-const QuestionForm = ({ user, talkId }) => {
+const QuestionForm = ({ user }) => {
   const [question, setQuestion] = useState("");
   const [displayConfirmation, setDisplayConfirmation] = useState(false);
   const [error, setError] = useState("");

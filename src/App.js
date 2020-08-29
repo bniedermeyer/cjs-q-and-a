@@ -28,7 +28,7 @@ const App = () => {
   return (
     <AppContainer>
       <Sticky>
-        <QuestionForm user={userId} talkId={talkId} />
+        <QuestionForm user={userId} />
       </Sticky>
       <QuestionList user={userId} />
     </AppContainer>
