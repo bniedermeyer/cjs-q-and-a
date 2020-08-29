@@ -38,7 +38,6 @@ const QuestionList = ({ user }) => {
 
   const fetchQuestions = useCallback(async () => {
     const talkId = window.location.hash.replace(/#/g, "").split("_")[1];
-    console.log("fetching questions for ", talkId);
     if (talkId) {
       try {
         let data = await (await fetch(`/questions?talkId=${talkId}`)).json();

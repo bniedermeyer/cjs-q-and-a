@@ -9,7 +9,6 @@ exports.handler = arc.http.async(deleteQuestion);
  */
 async function deleteQuestion(req) {
   const queryString = req.queryStringParameters;
-  console.log(queryString);
 
   if (!queryString || !queryString.key) {
     return { statusCode: 400 };
