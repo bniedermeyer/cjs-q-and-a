@@ -12,7 +12,6 @@ get /clear-questions
 get /delete
 get /questions
 post /ask
-post /clear-questions
 
 
 @tables

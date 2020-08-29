@@ -7,7 +7,10 @@ exports.handler = arc.http.async(questions);
  * Retrieves the list of active questions from Begin Data and
  * returns a list sorted by times the question has been asked descending
  */
-async function questions() {
+async function questions(req) {
+  console.log(req.queryStringParameters);
+  const { talkId } = req.queryStringParameters;
+  console.log("fetching questions for ", talkId);
   const table = "questions";
   let questions = await data.get({ table });
 
@@ -19,6 +22,7 @@ async function questions() {
   }
   console.log("questions retrieved: ", questions);
   const sortedQuestions = questions
+    .filter((question) => question.talkId === talkId)
     .map((question) => ({
       ...question,
       timesAsked: question.upvotedBy.length,

@@ -31,10 +31,21 @@ const Question = styled.li`
   color: #112378;
 `;
 
-const QuestionList = ({ user }) => {
+const QuestionList = ({ user, talkId }) => {
   const [allowPolling, setAllowPolling] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [err, setErr] = useState(null);
+
+  const fetchQuestions = useCallback(async () => {
+    if (talkId) {
+      try {
+        let data = await (await fetch(`/questions?talkId=${talkId}`)).json();
+        setQuestions(data);
+      } catch (err) {
+        setErr(err.message);
+      }
+    }
+  }, [talkId]);
 
   const pollForQuestions = useCallback(async () => {
     const interval = 10000;
@@ -42,23 +53,17 @@ const QuestionList = ({ user }) => {
       await new Promise((res) => setTimeout(res, interval));
       await fetchQuestions();
     }
-  }, [allowPolling]);
+  }, [allowPolling, fetchQuestions]);
 
   useEffect(() => {
-    fetchQuestions();
     pollForQuestions();
 
     return () => setAllowPolling(false);
   }, [pollForQuestions]);
 
-  async function fetchQuestions() {
-    try {
-      let data = await (await fetch("/questions")).json();
-      setQuestions(data);
-    } catch (err) {
-      setErr(err.message);
-    }
-  }
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   async function incrementQuestionCount(key) {
     const settings = {

@@ -22,7 +22,7 @@ const SubmitError = styled.span`
   color: #red;
 `;
 
-const QuestionForm = ({ user }) => {
+const QuestionForm = ({ user, talkId }) => {
   const [question, setQuestion] = useState("");
   const [displayConfirmation, setDisplayConfirmation] = useState(false);
   const [error, setError] = useState("");
@@ -34,7 +34,7 @@ const QuestionForm = ({ user }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question, user }),
+      body: JSON.stringify({ question, user, talkId }),
     };
     try {
       await fetch("/ask", settings);

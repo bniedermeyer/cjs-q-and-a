@@ -8,7 +8,7 @@ exports.handler = arc.http.async(ask);
  * the question has been asked.
  */
 async function ask(req) {
-  const { question, key, user } = req.body;
+  const { question, key, user, talkId } = req.body;
   if (user && (question || key)) {
     try {
       if (question) {
@@ -17,6 +17,7 @@ async function ask(req) {
         await data.set({
           table: "questions",
           question,
+          talkId,
           askedBy: user,
           upvotedBy: [user],
         });

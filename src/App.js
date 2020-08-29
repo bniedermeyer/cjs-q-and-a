@@ -16,20 +16,23 @@ const AppContainer = styled.div`
 
 const App = () => {
   const [userId, setUserId] = useState(null);
+  const [talkId, setTalkId] = useState(null);
 
   useEffect(() => {
+    const initialData = window.location.hash.replace(/#/, "");
+    const [userIdData, talkIdData] = initialData.split("_");
     // normally we don't want to interact with the global location
     // but this allows us to grab the user id from the iframe
-    setUserId(window.location.hash.replace(/#/, ""));
-    // listenForWindowEvents();
+    setUserId(userIdData);
+    setTalkId(talkIdData);
   }, []);
 
   return (
     <AppContainer>
       <Sticky>
-        <QuestionForm user={userId} />
+        <QuestionForm user={userId} talkId={talkId} />
       </Sticky>
-      <QuestionList user={userId} />
+      <QuestionList user={userId} talkId={talkId} />
     </AppContainer>
   );
 };
