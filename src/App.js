@@ -25,7 +25,7 @@ const App = () => {
     // but this allows us to grab the user id from the iframe
     setUserId(userIdData);
     setTalkId(talkIdData);
-  }, []);
+  });
 
   return (
     <AppContainer>
