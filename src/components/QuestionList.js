@@ -63,6 +63,10 @@ const QuestionList = ({ user }) => {
     return () => setAllowPolling(false);
   }, [allowPolling, fetchQuestions]);
 
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
+
   async function incrementQuestionCount(key) {
     const settings = {
       method: "POST",
