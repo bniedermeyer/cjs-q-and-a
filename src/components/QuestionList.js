@@ -31,12 +31,13 @@ const Question = styled.li`
   color: #112378;
 `;
 
-const QuestionList = ({ user, talkId }) => {
+const QuestionList = ({ user }) => {
   const [allowPolling, setAllowPolling] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [err, setErr] = useState(null);
 
   const fetchQuestions = useCallback(async () => {
+    const talkId = window.location.hash.replace(/#/g, "").split("_")[1];
     console.log("fetching questions for ", talkId);
     if (talkId) {
       try {
@@ -46,7 +47,7 @@ const QuestionList = ({ user, talkId }) => {
         setErr(err.message);
       }
     }
-  }, [talkId]);
+  }, []);
 
   useEffect(() => {
     const pollForQuestions = async () => {

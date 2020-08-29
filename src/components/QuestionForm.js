@@ -29,6 +29,8 @@ const QuestionForm = ({ user, talkId }) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const talkId = window.location.hash.replace(/#/g, "").split("_")[1];
+
     const settings = {
       method: "POST",
       headers: {

@@ -16,39 +16,21 @@ const AppContainer = styled.div`
 
 const App = () => {
   const [userId, setUserId] = useState(null);
-  const [talkId, setTalkId] = useState(null);
-  const [allowPolling, setAllowPolling] = useState(true);
 
   useEffect(() => {
     const initialData = window.location.hash.replace(/#/, "");
-    const [userIdData, talkIdData] = initialData.split("_");
+    const userIdData = initialData.split("_")[0];
     // normally we don't want to interact with the global location
     // but this allows us to grab the user id from the iframe
     setUserId(userIdData);
-    setTalkId(talkIdData);
   }, []);
-
-  useEffect(() => {
-    const pollForTalk = async () => {
-      const interval = 300;
-      while (allowPolling) {
-        await new Promise((res) => setTimeout(res, interval));
-        const talkIdData = window.location.hash.replace(/#/, "").split("_")[1];
-        console.log(talkIdData);
-        setTalkId(talkIdData);
-      }
-    };
-    pollForTalk();
-
-    return () => setAllowPolling(false);
-  }, [allowPolling]);
 
   return (
     <AppContainer>
       <Sticky>
         <QuestionForm user={userId} talkId={talkId} />
       </Sticky>
-      <QuestionList user={userId} talkId={talkId} />
+      <QuestionList user={userId} />
     </AppContainer>
   );
 };
