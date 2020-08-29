@@ -37,6 +37,7 @@ const QuestionList = ({ user, talkId }) => {
   const [err, setErr] = useState(null);
 
   const fetchQuestions = useCallback(async () => {
+    console.log("fetching questions for ", talkId);
     if (talkId) {
       try {
         let data = await (await fetch(`/questions?talkId=${talkId}`)).json();
@@ -47,23 +48,19 @@ const QuestionList = ({ user, talkId }) => {
     }
   }, [talkId]);
 
-  const pollForQuestions = useCallback(async () => {
-    const interval = 10000;
-    while (allowPolling) {
-      await new Promise((res) => setTimeout(res, interval));
-      await fetchQuestions();
-    }
-  }, [allowPolling, fetchQuestions]);
-
   useEffect(() => {
+    const pollForQuestions = async () => {
+      const interval = 10000;
+      while (allowPolling) {
+        await new Promise((res) => setTimeout(res, interval));
+        await fetchQuestions();
+      }
+    };
+
     pollForQuestions();
 
     return () => setAllowPolling(false);
-  }, [pollForQuestions]);
-
-  useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions]);
+  }, [allowPolling, fetchQuestions]);
 
   async function incrementQuestionCount(key) {
     const settings = {

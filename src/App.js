@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import QuestionForm from "./components/QuestionForm";
@@ -17,6 +17,7 @@ const AppContainer = styled.div`
 const App = () => {
   const [userId, setUserId] = useState(null);
   const [talkId, setTalkId] = useState(null);
+  const [allowPolling, setAllowPolling] = useState(true);
 
   useEffect(() => {
     const initialData = window.location.hash.replace(/#/, "");
@@ -25,7 +26,22 @@ const App = () => {
     // but this allows us to grab the user id from the iframe
     setUserId(userIdData);
     setTalkId(talkIdData);
-  });
+  }, []);
+
+  useEffect(() => {
+    const pollForTalk = async () => {
+      const interval = 300;
+      while (allowPolling) {
+        await new Promise((res) => setTimeout(res, interval));
+        const talkIdData = window.location.hash.replace(/#/, "").split("_")[1];
+        console.log(talkIdData);
+        setTalkId(talkIdData);
+      }
+    };
+    pollForTalk();
+
+    return () => setAllowPolling(false);
+  }, [allowPolling]);
 
   return (
     <AppContainer>
