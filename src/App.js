@@ -23,7 +23,7 @@ const App = () => {
     // normally we don't want to interact with the global location
     // but this allows us to grab the user id from the iframe
     setUserId(params.get("user"));
-  }, []);
+  }, [params]);
 
   const talkId = params.get("talk");
   if (!talkId) {
