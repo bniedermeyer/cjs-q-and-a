@@ -4,8 +4,7 @@ let data = require("@begin/data");
 exports.handler = arc.http.async(deleteQuestion);
 
 /**
- * Retrieves the list of active questions from Begin Data and
- * returns a list sorted by times the question has been asked descending
+ * Deletes the question for the qiven key from the database
  */
 async function deleteQuestion(req) {
   const queryString = req.queryStringParameters;

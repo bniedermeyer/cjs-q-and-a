@@ -10,7 +10,7 @@ exports.handler = arc.http.async(questions);
 async function questions(req) {
   console.log(req.queryStringParameters);
   const { talkId } = req.queryStringParameters;
-  console.log("fetching questions for ", talkId);
+  console.info("fetching questions for ", talkId);
   const table = "questions";
   let questions = await data.get({ table });
 
@@ -20,7 +20,6 @@ async function questions(req) {
     const nextPage = await data.get({ table, cursor });
     questions = questions.concat(nextPage);
   }
-  console.log("questions retrieved: ", questions);
   const sortedQuestions = questions
     .filter((question) => question.talkId === talkId)
     .map((question) => ({
