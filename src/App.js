@@ -25,6 +25,17 @@ const App = () => {
     setUserId(userIdData);
   }, []);
 
+  const talkId = window.location.hash.replace(/#/, "").split("_")[1];
+  if (!talkId) {
+    return (
+      <AppContainer>
+        <h2 style={{ color: "#112378", textAlign: "center" }}>
+          Q&A will open once the talks begin
+        </h2>
+      </AppContainer>
+    );
+  }
+
   return (
     <AppContainer>
       <Sticky>
