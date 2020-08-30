@@ -29,7 +29,9 @@ const QuestionForm = ({ user }) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const talkId = window.location.hash.replace(/#/g, "").split("_")[1];
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const talkId = params.get("talk");
 
     const settings = {
       method: "POST",

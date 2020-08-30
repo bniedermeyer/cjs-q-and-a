@@ -37,7 +37,9 @@ const QuestionList = ({ user }) => {
   const [err, setErr] = useState(null);
 
   const fetchQuestions = useCallback(async () => {
-    const talkId = window.location.hash.replace(/#/g, "").split("_")[1];
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const talkId = params.get("talk");
     if (talkId) {
       try {
         let data = await (await fetch(`/questions?talkId=${talkId}`)).json();

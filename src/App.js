@@ -16,16 +16,16 @@ const AppContainer = styled.div`
 
 const App = () => {
   const [userId, setUserId] = useState(null);
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
 
   useEffect(() => {
-    const initialData = window.location.hash.replace(/#/, "");
-    const userIdData = initialData.split("_")[0];
     // normally we don't want to interact with the global location
     // but this allows us to grab the user id from the iframe
-    setUserId(userIdData);
+    setUserId(params.get("user"));
   }, []);
 
-  const talkId = window.location.hash.replace(/#/, "").split("_")[1];
+  const talkId = params.get("talk");
   if (!talkId) {
     return (
       <AppContainer>
