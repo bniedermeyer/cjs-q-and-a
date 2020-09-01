@@ -9,7 +9,7 @@ exports.handler = arc.http.async(questions);
  */
 async function questions(req) {
   console.log(req.queryStringParameters);
-  const { talkId } = req.queryStringParameters;
+  const { talkId, debug } = req.queryStringParameters;
   console.info("fetching questions for ", talkId);
   const table = "questions";
   try {
@@ -28,7 +28,13 @@ async function questions(req) {
         timesAsked: question.upvotedBy.length,
       }))
       .sort((a, b) => b.timesAsked - a.timesAsked);
-    return { body: JSON.stringify(sortedQuestions) };
+
+    if (debug) {
+      const response = { questions, req };
+      return { body: JSON.stringify(response) };
+    } else {
+      return { body: JSON.stringify(sortedQuestions) };
+    }
   } catch (error) {
     console.error(error.message);
     console.error(error);
