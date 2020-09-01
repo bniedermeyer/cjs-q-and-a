@@ -18,7 +18,7 @@ async function questions(req) {
     const pages = data.page({ table, limit: 25 });
 
     for await (let page of pages) {
-      questions = questions.contact(page);
+      questions = questions.concat(page);
     }
 
     const sortedQuestions = questions
