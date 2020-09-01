@@ -15,7 +15,7 @@ async function questions(req) {
   try {
     let questions = [];
 
-    const pages = await data.page({ table, limit: 25 });
+    const pages = data.page({ table, limit: 25 });
 
     for await (let page of pages) {
       questions = questions.contact(page);
