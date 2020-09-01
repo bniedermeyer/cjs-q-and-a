@@ -13,14 +13,14 @@ async function questions(req) {
   console.info("fetching questions for ", talkId);
   const table = "questions";
   try {
-    let questions = await data.get({ table });
+    let questions = [];
 
-    if (questions.cursor) {
-      // questions remaining data from begin
-      const cursor = questions.cursor;
-      const nextPage = await data.get({ table, cursor });
-      questions = questions.concat(nextPage);
+    const pages = await data.page({ table, limit: 25 });
+
+    for await (let page of pages) {
+      questions = questions.contact(page);
     }
+
     const sortedQuestions = questions
       .filter((question) => question.talkId === talkId)
       .map((question) => ({
