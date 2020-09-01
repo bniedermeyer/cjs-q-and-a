@@ -12,20 +12,25 @@ async function questions(req) {
   const { talkId } = req.queryStringParameters;
   console.info("fetching questions for ", talkId);
   const table = "questions";
-  let questions = await data.get({ table });
+  try {
+    let questions = await data.get({ table });
 
-  if (questions.cursor) {
-    // questions remaining data from begin
-    const cursor = questions.cursor;
-    const nextPage = await data.get({ table, cursor });
-    questions = questions.concat(nextPage);
+    if (questions.cursor) {
+      // questions remaining data from begin
+      const cursor = questions.cursor;
+      const nextPage = await data.get({ table, cursor });
+      questions = questions.concat(nextPage);
+    }
+    const sortedQuestions = questions
+      .filter((question) => question.talkId === talkId)
+      .map((question) => ({
+        ...question,
+        timesAsked: question.upvotedBy.length,
+      }))
+      .sort((a, b) => b.timesAsked - a.timesAsked);
+    return { body: JSON.stringify(sortedQuestions) };
+  } catch (error) {
+    console.error(error.message);
+    console.error(error);
   }
-  const sortedQuestions = questions
-    .filter((question) => question.talkId === talkId)
-    .map((question) => ({
-      ...question,
-      timesAsked: question.upvotedBy.length,
-    }))
-    .sort((a, b) => b.timesAsked - a.timesAsked);
-  return { body: JSON.stringify(sortedQuestions) };
 }
