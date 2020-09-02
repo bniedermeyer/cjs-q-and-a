@@ -86,10 +86,10 @@ const QuestionList = ({ user }) => {
 
   let content = [];
 
-  if (questions) {
-    if (questions.length === 0) {
-      content = <li key="no-questions">No Questions Yet!</li>;
-    } else {
+  if (questions.length === 0) {
+    content = <li key="no-questions">No Questions Yet!</li>;
+  } else {
+    if (Array.isArray(questions)) {
       content = questions.map(({ question, key, timesAsked }) => (
         <Question className="qa-question" key={key}>
           <QuestionText>{question}</QuestionText>
