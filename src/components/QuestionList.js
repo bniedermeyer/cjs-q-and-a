@@ -84,26 +84,28 @@ const QuestionList = ({ user }) => {
     return <h2>Error fetching Questions</h2>;
   }
 
-  let content;
+  let content = [];
 
-  if (questions.length === 0) {
-    content = <li key="no-questions">No Questions Yet!</li>;
-  } else {
-    content = questions.map(({ question, key, timesAsked }) => (
-      <Question className="qa-question" key={key}>
-        <QuestionText>{question}</QuestionText>
+  if (questions) {
+    if (questions.length === 0) {
+      content = <li key="no-questions">No Questions Yet!</li>;
+    } else {
+      content = questions.map(({ question, key, timesAsked }) => (
+        <Question className="qa-question" key={key}>
+          <QuestionText>{question}</QuestionText>
 
-        <IncrementButton
-          type="button"
-          className="qa-inc-button"
-          onClick={() => incrementQuestionCount(key)}
-          aria-label="Also ask this question"
-        >
-          +1
-        </IncrementButton>
-        <span>{timesAsked}</span>
-      </Question>
-    ));
+          <IncrementButton
+            type="button"
+            className="qa-inc-button"
+            onClick={() => incrementQuestionCount(key)}
+            aria-label="Also ask this question"
+          >
+            +1
+          </IncrementButton>
+          <span>{timesAsked}</span>
+        </Question>
+      ));
+    }
   }
 
   return <ListContainer id="qa-questions">{content}</ListContainer>;
